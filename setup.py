@@ -6,12 +6,7 @@ from subprocess import check_call, CalledProcessError
 from setuptools import setup
 
 
-requirements = ['setuptools', 'mongoengine>=0.10.0']
-
-if sys.version_info >= (3, 5):
-    requirements.append('django')
-else:
-    requirements.append('django<2')
+requirements = ['setuptools', 'mongoengine>=0.10.0', 'Django']
 
 
 def convert_readme():
