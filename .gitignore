@@ -13,3 +13,4 @@ build/*
 README.rst
 .ropeproject/
 .tox/
+.venv/
