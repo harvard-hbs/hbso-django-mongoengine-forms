@@ -6,12 +6,7 @@ from subprocess import check_call, CalledProcessError
 from setuptools import setup
 
 
-requirements = ['setuptools', 'mongoengine>=0.10.0']
-
-if sys.version_info >= (3, 5):
-    requirements.append('django')
-else:
-    requirements.append('django<2')
+requirements = ['setuptools', 'mongoengine>=0.10.0', "Django>=5.0"]
 
 
 def convert_readme():
@@ -26,7 +21,7 @@ def convert_readme():
 
 setup(
     name='django-mongoengine-forms',
-    version='0.4.7',
+    version='0.5.0',
     description="An implementation of django forms using mongoengine.",
     author='Thom Wiggers',
     author_email='thom@thomwiggers.nl',
