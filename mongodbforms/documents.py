@@ -9,7 +9,7 @@ from django.forms.forms import (BaseForm, DeclarativeFieldsMetaclass,
 from django.forms.widgets import media_property
 from django.core.exceptions import FieldError
 from django.core.validators import EMPTY_VALUES
-from django.forms.utils import ErrorList, pretty_name
+from django.forms.utils import ErrorList
 from django.forms.formsets import BaseFormSet, formset_factory
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import gettext
@@ -31,6 +31,14 @@ from .util import with_metaclass, load_field_generator
 
 
 _fieldgenerator = None
+
+
+def pretty_name(name):
+    """
+    Convert field names like 'first_name' to 'First name' for display.
+    This replaces the removed django.forms.utils.pretty_name function.
+    """
+    return capfirst(name.replace('_', ' '))
 
 
 def _load_and_cache_field_generator():
