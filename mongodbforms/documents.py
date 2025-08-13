@@ -364,7 +364,8 @@ class BaseDocumentForm(BaseForm):
 
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
                  initial=None, error_class=ErrorList, label_suffix=':',
-                 empty_permitted=False, use_required_attribute=False, instance=None):
+                 empty_permitted=False, use_required_attribute=False, instance=None,
+                 renderer=None):
 
         opts = self._meta
 
@@ -395,7 +396,8 @@ class BaseDocumentForm(BaseForm):
             error_class=error_class,
             label_suffix=label_suffix,
             empty_permitted=empty_permitted,
-            use_required_attribute=use_required_attribute)
+            use_required_attribute=use_required_attribute,
+            renderer=renderer)
 
     def _update_errors(self, message_dict):
         for k, v in list(message_dict.items()):
@@ -611,7 +613,7 @@ class EmbeddedDocumentForm(with_metaclass(DocumentFormMetaclass,
                                           BaseDocumentForm)):
 
     def __init__(self, parent_document, data=None, files=None, position=None,
-                 *args, **kwargs):
+                 renderer=None, *args, **kwargs):
         if self._meta.embedded_field is not None and \
                 self._meta.embedded_field not in parent_document._fields:
             raise FieldError("Parent document must have field %s" %
@@ -639,8 +641,8 @@ class EmbeddedDocumentForm(with_metaclass(DocumentFormMetaclass,
                 )
 
         super(EmbeddedDocumentForm, self).__init__(data=data, files=files,
-                                                   instance=instance, *args,
-                                                   **kwargs)
+                                                   instance=instance, renderer=renderer,
+                                                   *args, **kwargs)
         self.parent_document = parent_document
         self.position = position
 
