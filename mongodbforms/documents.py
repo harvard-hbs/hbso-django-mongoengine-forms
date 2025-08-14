@@ -642,8 +642,9 @@ class EmbeddedDocumentForm(with_metaclass(DocumentFormMetaclass,
                     None
                 )
 
+        # Remove renderer parameter for Django 5.2+ compatibility
         super(EmbeddedDocumentForm, self).__init__(data=data, files=files,
-                                                   instance=instance, renderer=renderer,
+                                                   instance=instance,
                                                    *args, **kwargs)
         self.parent_document = parent_document
         self.position = position
