@@ -5,7 +5,6 @@ from subprocess import check_call, CalledProcessError
 
 from setuptools import setup
 
-
 requirements = ['setuptools', 'mongoengine>=0.10.0', "Django>=5.0"]
 
 
