@@ -1,17 +1,18 @@
 import os
 import itertools
-from collections import Callable, OrderedDict
+from collections.abc import Callable
+from collections import OrderedDict
 from functools import reduce
 
 from django.forms.forms import (BaseForm, DeclarativeFieldsMetaclass,
                                 NON_FIELD_ERRORS)
-from django.forms.utils import pretty_name
 from django.forms.widgets import media_property
 from django.core.exceptions import FieldError
 from django.core.validators import EMPTY_VALUES
 from django.forms.utils import ErrorList
 from django.forms.formsets import BaseFormSet, formset_factory
-from django.utils.translation import ugettext_lazy as _, ugettext
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext
 from django.utils.text import capfirst, get_valid_filename
 
 from mongoengine.fields import (ObjectIdField, ListField, ReferenceField,
@@ -30,6 +31,14 @@ from .util import with_metaclass, load_field_generator
 
 
 _fieldgenerator = None
+
+
+def pretty_name(name):
+    """
+    Convert field names like 'first_name' to 'First name' for display.
+    This replaces the removed django.forms.utils.pretty_name function.
+    """
+    return capfirst(name.replace('_', ' '))
 
 
 def _load_and_cache_field_generator():
@@ -355,7 +364,8 @@ class BaseDocumentForm(BaseForm):
 
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
                  initial=None, error_class=ErrorList, label_suffix=':',
-                 empty_permitted=False, use_required_attribute=False, instance=None):
+                 empty_permitted=False, use_required_attribute=False, instance=None,
+                 renderer=None):
 
         opts = self._meta
 
@@ -386,7 +396,8 @@ class BaseDocumentForm(BaseForm):
             error_class=error_class,
             label_suffix=label_suffix,
             empty_permitted=empty_permitted,
-            use_required_attribute=use_required_attribute)
+            use_required_attribute=use_required_attribute,
+            renderer=renderer)
 
     def _update_errors(self, message_dict):
         for k, v in list(message_dict.items()):
@@ -602,7 +613,7 @@ class EmbeddedDocumentForm(with_metaclass(DocumentFormMetaclass,
                                           BaseDocumentForm)):
 
     def __init__(self, parent_document, data=None, files=None, position=None,
-                 *args, **kwargs):
+                 renderer=None, *args, **kwargs):
         if self._meta.embedded_field is not None and \
                 self._meta.embedded_field not in parent_document._fields:
             raise FieldError("Parent document must have field %s" %
@@ -630,8 +641,8 @@ class EmbeddedDocumentForm(with_metaclass(DocumentFormMetaclass,
                 )
 
         super(EmbeddedDocumentForm, self).__init__(data=data, files=files,
-                                                   instance=instance, *args,
-                                                   **kwargs)
+                                                   instance=instance, renderer=renderer,
+                                                   *args, **kwargs)
         self.parent_document = parent_document
         self.position = position
 
@@ -752,7 +763,7 @@ class BaseDocumentFormSet(BaseFormSet):
             raise ValidationError(errors)
 
     def get_date_error_message(self, date_check):
-        return ugettext("Please correct the duplicate data for %(field_name)s "
+        return gettext("Please correct the duplicate data for %(field_name)s "
                         "which must be unique for the %(lookup)s "
                         "in %(date_field)s.") % {
             'field_name': date_check[2],
@@ -761,7 +772,7 @@ class BaseDocumentFormSet(BaseFormSet):
         }
 
     def get_form_error(self):
-        return ugettext("Please correct the duplicate values below.")
+        return gettext("Please correct the duplicate values below.")
 
 
 def documentformset_factory(document, form=DocumentForm,
