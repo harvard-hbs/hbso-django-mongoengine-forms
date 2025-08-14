@@ -364,9 +364,12 @@ class BaseDocumentForm(BaseForm):
 
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
                  initial=None, error_class=ErrorList, label_suffix=':',
-                 empty_permitted=False, use_required_attribute=False, instance=None,
-                 renderer=None):
+                 empty_permitted=False, use_required_attribute=False, instance=None):
+        """
+        Initialize the form.
 
+        Note: renderer parameter removed for Django 5.2+ compatibility
+        """
         opts = self._meta
 
         if instance is None:
@@ -396,8 +399,7 @@ class BaseDocumentForm(BaseForm):
             error_class=error_class,
             label_suffix=label_suffix,
             empty_permitted=empty_permitted,
-            use_required_attribute=use_required_attribute,
-            renderer=renderer)
+            use_required_attribute=use_required_attribute)
 
     def _update_errors(self, message_dict):
         for k, v in list(message_dict.items()):

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.6.0
+-------------
+* Remove renderer parameter from BaseDocumentForm for Django 5.2+ compatibility
+* Update dependencies for Django 5.2 and Python 3.12 support
+
 Version 0.4.6
 -------------
 * Hold a lazy queryset reference to prevent early database access (PR #15 by @terencehonles)

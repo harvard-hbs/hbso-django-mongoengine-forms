@@ -20,7 +20,7 @@ def convert_readme():
 
 setup(
     name='django-mongoengine-forms',
-    version='0.5.0',
+    version='0.6.0',
     description="An implementation of django forms using mongoengine.",
     author='Thom Wiggers',
     author_email='thom@thomwiggers.nl',
