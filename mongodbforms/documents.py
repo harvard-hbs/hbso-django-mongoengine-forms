@@ -642,6 +642,11 @@ class EmbeddedDocumentForm(with_metaclass(DocumentFormMetaclass,
                     None
                 )
 
+        # NOTE: removing renderer key (kbh)
+        try:
+            del kwargs['renderer']
+        except:
+            pass
         # Remove renderer parameter for Django 5.2+ compatibility
         super(EmbeddedDocumentForm, self).__init__(data=data, files=files,
                                                    instance=instance,
