@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-
 """
 Based on django mongotools (https://github.com/wpjunior/django-mongotools) by
 Wilson Júnior (wilsonpjunior@gmail.com).
 """
-import collections
+from collections.abc import Callable
 
 from django import forms
 from django.core.validators import EMPTY_VALUES, RegexValidator
-from django.utils.encoding import smart_text as smart_unicode
+from django.utils.encoding import smart_str
 from django.utils.text import capfirst
 from mongoengine import (ReferenceField as MongoReferenceField,
                          EmbeddedDocumentField as MongoEmbeddedDocumentField,
@@ -113,7 +112,7 @@ class MongoFormFieldGenerator(object):
     def string_field(self, value):
         if value in EMPTY_VALUES:
             return None
-        return smart_unicode(value)
+        return smart_str(value)
 
     def integer_field(self, value):
         if value in EMPTY_VALUES:
@@ -144,7 +143,7 @@ class MongoFormFieldGenerator(object):
         else:
             f = field
         d = {}
-        if isinstance(f.default, collections.Callable):
+        if isinstance(f.default, Callable):
             d['initial'] = field.default()
             d['show_hidden_initial'] = True
             return f.default()

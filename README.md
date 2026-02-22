@@ -6,7 +6,7 @@ This a fork of [Jan Schrewe's mongodbforms](https://github.com/jschrewe/django-m
 
 ## Requirements
 
-  * Django >= 1.9
+  * Django >= 5.0
   * [mongoengine](http://mongoengine.org/) >= 0.10.0
 
 Earlier versions may work, but we're currently not testing with those.

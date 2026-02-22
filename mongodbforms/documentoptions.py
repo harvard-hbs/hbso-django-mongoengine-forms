@@ -1,5 +1,5 @@
 import sys
-from collections import MutableMapping
+from collections.abc import MutableMapping
 from types import MethodType
 import warnings
 

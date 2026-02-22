@@ -18,7 +18,7 @@ class SimpleDocumentTest(unittest.TestCase):
 
     def test_form(self):
         form = MyForm()
-        self.assertEquals(len(form.fields), 3)
+        self.assertEqual(len(form.fields), 3)
         self.assertFalse(form.fields['mystring'].required)
-        self.assertEquals(form.fields['myverbosestring'].label, "Foobar")
+        self.assertEqual(form.fields['myverbosestring'].label, "Foobar")
         self.assertTrue(form.fields['myrequiredstring'].required)
